@@ -10,6 +10,7 @@ import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.withContext
 
+// 基于屏幕的打开或关闭来暂停或恢复 Clash 核心的操作
 class SuspendModule(service: Service) : Module<Unit>(service) {
     override suspend fun run() {
         val interactive = service.getSystemService<PowerManager>()?.isInteractive ?: true

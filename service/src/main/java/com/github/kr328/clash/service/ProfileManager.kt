@@ -25,6 +25,7 @@ import java.io.FileNotFoundException
 import java.math.BigDecimal
 import java.util.*
 
+// clash配置文件的增删改查、更新、激活使用等操作
 class ProfileManager(private val context: Context) : IProfileManager,
     CoroutineScope by CoroutineScope(Dispatchers.IO) {
     private val store = ServiceStore(context)
@@ -65,6 +66,7 @@ class ProfileManager(private val context: Context) : IProfileManager,
         return uuid
     }
 
+    // App端复制Profile 会依次执行clone、patch、commit
     override suspend fun clone(uuid: UUID): UUID {
         val newUUID = generateProfileUUID()
 
@@ -90,6 +92,7 @@ class ProfileManager(private val context: Context) : IProfileManager,
         return newUUID
     }
 
+    // 新增或更新pending数据
     override suspend fun patch(uuid: UUID, name: String, source: String, interval: Long) {
         val pending = PendingDao().queryByUUID(uuid)
 

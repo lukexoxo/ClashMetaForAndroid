@@ -14,6 +14,9 @@ import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.selects.SelectClause1
 import kotlinx.coroutines.withContext
 
+// 1. Channel事件处理机制，用于协程通信，用实例方法
+// 2. 模块接受广播并传递到对应Intent到Channel中去，其他协程可以从这个Channel中接收广播的内容，用返回的channel
+// 3. 模块的执行逻辑run()
 abstract class Module<E>(val service: Service) {
     private val events: Channel<E> = Channel(Channel.UNLIMITED)
     private val receivers: MutableList<BroadcastReceiver> = mutableListOf()

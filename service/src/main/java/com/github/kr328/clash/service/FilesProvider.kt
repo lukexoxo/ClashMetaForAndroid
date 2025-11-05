@@ -13,6 +13,7 @@ import kotlinx.coroutines.runBlocking
 import java.io.FileNotFoundException
 import android.provider.DocumentsContract.Document as D
 
+// 让 Clash 的配置文件、Profile 等内容可以在系统文件选择器中被访问和操作
 class FilesProvider : DocumentsProvider() {
     companion object {
         private const val DEFAULT_ROOT_ID = "0"

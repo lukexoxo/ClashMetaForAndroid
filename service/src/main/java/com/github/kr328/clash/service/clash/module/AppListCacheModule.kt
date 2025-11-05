@@ -9,6 +9,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 
+// 监听系统已经安装App列表，通知 Clash 核心更新 App 列表缓存
+// 负责实时同步并缓存系统应用列表给 Clash 核心，用于规则匹配（分应用代理、访问控制等）
 class AppListCacheModule(service: Service) : Module<Unit>(service) {
     private fun PackageInfo.uniqueUidName(): String =
         if (sharedUserId?.isNotBlank() == true) sharedUserId!! else packageName
