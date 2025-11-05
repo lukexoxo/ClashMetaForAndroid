@@ -15,6 +15,7 @@ import com.github.kr328.clash.service.R
 import com.github.kr328.clash.service.StatusProvider
 import kotlinx.coroutines.channels.Channel
 
+// 显示静态前台服务通知
 class StaticNotificationModule(service: Service) : Module<Unit>(service) {
     private val builder = NotificationCompat.Builder(service, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_logo_service)
@@ -55,6 +56,7 @@ class StaticNotificationModule(service: Service) : Module<Unit>(service) {
     companion object {
         const val CHANNEL_ID = "clash_status_channel"
 
+        // 创建通知通道，Android用通知通道来分类管理通知
         fun createNotificationChannel(service: Service) {
             NotificationManagerCompat.from(service).createNotificationChannel(
                 NotificationChannelCompat.Builder(
@@ -64,6 +66,7 @@ class StaticNotificationModule(service: Service) : Module<Unit>(service) {
             )
         }
 
+        // 发送加载中通知
         fun notifyLoadingNotification(service: Service) {
             val notification =
                 NotificationCompat.Builder(service, CHANNEL_ID)
@@ -75,6 +78,7 @@ class StaticNotificationModule(service: Service) : Module<Unit>(service) {
                     .setContentTitle(service.getText(R.string.loading))
                     .build()
 
+            // 启动前台服务，并发送通知
             service.startForegroundCompat(R.id.nf_clash_status, notification)
         }
     }

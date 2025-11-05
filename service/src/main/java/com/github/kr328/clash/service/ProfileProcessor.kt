@@ -26,6 +26,8 @@ import java.net.URL
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+// 被 ProfileManager 和 ProfileWorker 调用，最底层
+// 把pending的配置文件状态同步到可用状态Imported，同时处理远程订阅文件的下载和验证
 object ProfileProcessor {
     private val profileLock = Mutex()
     private val processLock = Mutex()

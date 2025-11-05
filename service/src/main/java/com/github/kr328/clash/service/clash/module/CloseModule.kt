@@ -4,6 +4,7 @@ import android.app.Service
 import com.github.kr328.clash.common.constants.Intents
 import com.github.kr328.clash.common.log.Log
 
+// 通过广播停止clash+服务
 class CloseModule(service: Service) : Module<CloseModule.RequestClose>(service) {
     object RequestClose
 

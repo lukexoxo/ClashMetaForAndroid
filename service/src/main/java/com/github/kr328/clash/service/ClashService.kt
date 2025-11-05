@@ -15,6 +15,9 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 
+// clashRuntime中的协程作用域是ClashService，如果ClashService销毁则关闭所有协程
+// isActive，检测 当前协程作用域 的活动状态
+// 协程一直运行直到收到特定事件，停止协程并停止Service
 class ClashService : BaseService() {
     private val self: ClashService
         get() = this
@@ -37,6 +40,7 @@ class ClashService : BaseService() {
         install(TimeZoneModule(self))
         install(SuspendModule(self))
 
+        // 协程一直执行，直到收到以下模块的事件
         try {
             while (isActive) {
                 val quit = select<Boolean> {
@@ -66,6 +70,8 @@ class ClashService : BaseService() {
         }
     }
 
+    // 当 Service 被首次创建时调用
+    // 有两种创建方式：startService() bindService()
     override fun onCreate() {
         super.onCreate()
 
@@ -80,12 +86,14 @@ class ClashService : BaseService() {
         runtime.launch()
     }
 
+    // 每次通过 startService() 启动时都会被调用，适合处理多次启动的任务
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         sendClashStarted()
 
         return START_STICKY
     }
 
+    // 每次Service 被绑定时会被调用，通常用于客户端需要与 Service 进行交互时
     override fun onBind(intent: Intent?): IBinder {
         return Binder()
     }

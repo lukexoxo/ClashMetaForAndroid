@@ -22,6 +22,7 @@ import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+// 被ProfileReceiver调用，用于执行Profile实际更新任务
 class ProfileWorker : BaseService() {
     private val service: ProfileWorker
         get() = this

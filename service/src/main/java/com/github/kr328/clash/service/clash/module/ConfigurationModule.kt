@@ -14,6 +14,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.selects.select
 import java.util.*
 
+// 监听配置变更的广播，从数据库拉取配置，并执行Clash.load
 class ConfigurationModule(service: Service) : Module<ConfigurationModule.LoadException>(service) {
     data class LoadException(val message: String)
 
@@ -28,9 +29,13 @@ class ConfigurationModule(service: Service) : Module<ConfigurationModule.LoadExc
 
         var loaded: UUID? = null
 
+        // 第一次启动会reload一次
         reload.trySend(Unit)
 
         while (true) {
+            // 监听等待两个通道事件
+            // 1. 源于系统广播收到事件
+            // 2. 自己触发的 reload 事件
             val changed: UUID? = select {
                 broadcasts.onReceive {
                     if (it.action == Intents.ACTION_PROFILE_CHANGED)

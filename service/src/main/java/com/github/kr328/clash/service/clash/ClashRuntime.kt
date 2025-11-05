@@ -18,6 +18,8 @@ interface ClashRuntime {
     fun requestGc()
 }
 
+// 1. 启动一个协程执行外部传入的代码块block
+// 2. 外部每次scope.install一个模块，启动一个新协程运行Module
 fun CoroutineScope.clashRuntime(block: suspend ClashRuntimeScope.() -> Unit): ClashRuntime {
     return object : ClashRuntime {
         override fun launch() {

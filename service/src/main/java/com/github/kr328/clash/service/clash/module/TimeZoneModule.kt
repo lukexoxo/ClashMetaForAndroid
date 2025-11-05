@@ -5,6 +5,7 @@ import android.content.Intent
 import com.github.kr328.clash.core.Clash
 import java.util.*
 
+// 处理时区的改变
 class TimeZoneModule(service: Service) : Module<Unit>(service) {
     override suspend fun run() {
         val timeZones = receiveBroadcast {
